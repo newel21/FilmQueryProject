@@ -26,46 +26,19 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 		stmt.setInt(1, filmId);
 		ResultSet filmResult = stmt.executeQuery();
 		if (filmResult.next()) {
-			film = new Film(); // Create the object
+			film = new Film(); 
 			film.setId(filmResult.getInt("film.id"));
 			film.setTitle(filmResult.getString("film.title"));
 			film.setReleaseYear(filmResult.getInt("film.release_year"));
 			film.setRating(filmResult.getString("film.rating"));
 			film.setDescription(filmResult.getString("film.description"));
 			film.setLanguageName(filmResult.getString("language.name"));
-			film.setActors(getActorsByFilmId(filmId)); // A Film has Actors
+			film.setActors(getActorsByFilmId(filmId)); 
 		}
 		filmResult.close();
 		stmt.close();
 		conn.close();
 		return film;
-	}
-
-	@Override
-	public List<Actor> getActorByFilmKeyword(String filmKeyword) throws SQLException {
-		List<Actor> actors = new ArrayList<>();
-		try {
-			Connection conn = DriverManager.getConnection(URL, user, pass);
-//		                          1       2          3   
-			String sql = "SELECT actor.first_name, actor.last_name\n"
-					+ "FROM actor JOIN film_actor ON film_actor.actor_id = actor.id\n"
-					+ "JOIN film ON film_actor.film_id = film.id WHERE film.id = ?";
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			stmt.setString(1, filmKeyword);
-			ResultSet rs = stmt.executeQuery();
-			while (rs.next()) {
-				Actor actor = new Actor();
-				actor.setFirstName(rs.getString(1));
-				actor.setLastName(rs.getString(2));
-				actors.add(actor);
-			}
-			rs.close();
-			stmt.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return actors;
 	}
 
 	@Override
@@ -114,10 +87,14 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				film.setRating(rs.getString("film.rating"));
 				film.setDescription(rs.getString("film.description"));
 				film.setLanguageName(rs.getString("language.name"));
-				film.setActors(getActorByFilmKeyword(filmKeyword)); // A Film has Actors
+				film.setActors(getActorsByFilmId(rs.getInt("id"))); 
 				films.add(film);
-				System.out.println(film);
 			}
+			
+			if (films.isEmpty()) {
+				System.out.println("Not found on file. Try again.");
+			}
+			
 			rs.close();
 			stmt.close();
 			conn.close();

@@ -38,7 +38,6 @@ public class FilmQueryApp {
     
     switch(input.nextInt()) {
     	case 1: searchById();
-		    	printActors();
     		    break;
     	case 2: searchByKeyword();
     	        break;
@@ -59,6 +58,7 @@ public class FilmQueryApp {
 			if (choice <= 1000) {
 				Film film = db.getFilmById(choice);
 				System.out.println(film);
+				printActors();
 			} else {
 				System.out.println("Film not found");
 			}
@@ -75,8 +75,9 @@ public class FilmQueryApp {
 	  Scanner sc = new Scanner(System.in);
 	  System.out.println("Enter keyword: ");
 	  String choice = sc.nextLine();
-	  List<Film> film = db.getFilmByKeyword(choice);
-		System.out.println(film);
+	  List<Film> film = db.getFilmByKeyword(choice);  
+	  	System.out.println(film);			
+
 	   
 	  
 	  sc.close();
@@ -84,9 +85,9 @@ public class FilmQueryApp {
   
   private void printActors() {
 	  List<Actor> actor = new ArrayList<>();
-	  for (Actor actor2 : actor) {
-		actor.add(actor2);
-		System.out.println(actor);
+	  for (Actor a : actor) {
+		actor.add(a);
+		System.out.println(a.getFirstName() + " " + a.getLastName());
 	}
   }
 

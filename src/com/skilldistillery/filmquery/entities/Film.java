@@ -40,18 +40,6 @@ public class Film {
 	}
 
 
-	public Film(int filmId, String title2, int releaseYear2, String rating2, String description2, String language) {
-		super();
-		this.id = filmId;
-		this.title = title2;
-		this.releaseYear = releaseYear2;
-		this.rating = rating2;
-		this.description = description2;
-		this.languageName = language;
-		
-	}
-
-
 	public int getId() {
 		return id;
 	}
@@ -262,7 +250,7 @@ public class Film {
 	@Override
 	public String toString() {
 		return "FILM ID: " + id + " \nTITLE: " + title + "\nRELEASE YEAR: " + releaseYear + "\nRATING: " + rating +
-				"\nDESCRIPTION: " + description  + "\nLANGUAGE: " + languageName + "\nCAST(S): " + actors;
+				"\nDESCRIPTION: " + description  + "\nLANGUAGE: " + languageName + "\nCAST(S): " + actors + "\n\n";
 	}
 
 
