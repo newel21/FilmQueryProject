@@ -1,9 +1,13 @@
 package com.skilldistillery.filmquery.app;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import com.skilldistillery.filmquery.database.DatabaseAccessor;
 import com.skilldistillery.filmquery.database.DatabaseAccessorObject;
+import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
 public class FilmQueryApp {
@@ -32,13 +36,11 @@ public class FilmQueryApp {
     System.out.println("2. Look up a film by a search keyword.");
     System.out.println("3. Exit the application.");
     
-//    Film film = db.getFilmById(input.nextInt());
-//    System.out.println(film);
-    
     switch(input.nextInt()) {
     	case 1: searchById();
+		    	printActors();
     		    break;
-    	case 2: System.out.println("Movies by keywords");
+    	case 2: searchByKeyword();
     	        break;
     	case 3: System.out.println("Goodbye!");
     	        break;
@@ -49,18 +51,45 @@ public class FilmQueryApp {
     input.close();
   }
 
-  private void searchById() throws SQLException {
+  private void searchById() throws SQLException, InputMismatchException{
 	  Scanner sc = new Scanner(System.in);
 	  System.out.println("Enter Film ID: ");
+	  try {
 	  int choice = sc.nextInt();
 			if (choice <= 1000) {
 				Film film = db.getFilmById(choice);
-				System.out.println(film);			
-			}else {
+				System.out.println(film);
+			} else {
 				System.out.println("Film not found");
 			}
+		  }catch (InputMismatchException e) {
+			  System.out.println("Invalid input, try again");
+			  System.out.println();
+			  searchById();		  
+	  }
 
 		sc.close();
   }
+  
+  private void searchByKeyword() throws SQLException {
+	  Scanner sc = new Scanner(System.in);
+	  System.out.println("Enter keyword: ");
+	  String choice = sc.nextLine();
+	  List<Film> film = db.getFilmByKeyword(choice);
+		System.out.println(film);
+	   
+	  
+	  sc.close();
+  }
+  
+  private void printActors() {
+	  List<Actor> actor = new ArrayList<>();
+	  for (Actor actor2 : actor) {
+		actor.add(actor2);
+		System.out.println(actor);
+	}
+  }
 
 }
+
+
