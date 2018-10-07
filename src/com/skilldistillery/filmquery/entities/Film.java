@@ -250,8 +250,19 @@ public class Film {
 	@Override
 	public String toString() {
 		return "FILM ID: " + id + " \nTITLE: " + title + "\nRELEASE YEAR: " + releaseYear + "\nRATING: " + rating +
-				"\nDESCRIPTION: " + description  + "\nLANGUAGE: " + languageName + "\nCAST(S): " + actors + "\n\n";
+				"\nDESCRIPTION: " + description  + "\nLANGUAGE: " + languageName + "\nCAST(S): " + "\n" + printActors() + "\n\n";
 	}
+	
+	// prints the list of actors and call this method inside the Film toString
+	private String printActors() {
+		  List<Actor> actor = this.actors;
+		  String act = "";
+		  for (Actor a : actor) {
+			act += "- " + a.getFirstName() + " " + a.getLastName() + "\n";
+			
+		}
+		return act;
+	  }
 
 
 

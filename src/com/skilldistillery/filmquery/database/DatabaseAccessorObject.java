@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import com.skilldistillery.filmquery.entities.Actor;
 import com.skilldistillery.filmquery.entities.Film;
 
@@ -69,7 +70,7 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 	}
 
 	@Override
-	public List<Film> getFilmByKeyword(String filmKeyword) throws SQLException {
+	public List<Film> getFilmByKeyword(String filmKeyword) throws SQLException, NoSuchElementException {
 		List<Film> films = new ArrayList<>();
 		try {
 			Connection conn = DriverManager.getConnection(URL, user, pass);
@@ -91,8 +92,10 @@ public class DatabaseAccessorObject implements DatabaseAccessor {
 				films.add(film);
 			}
 			
+			// throws exception if the keyword input is not found or doesn't match
 			if (films.isEmpty()) {
 				System.out.println("Not found on file. Try again.");
+				throw new NoSuchElementException("Not found");
 			}
 			
 			rs.close();
